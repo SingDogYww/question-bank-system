@@ -17,12 +17,56 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
-tasks.named('test') {
-    useJUnitPlatform()
+dependencies {
+    // Spring Boot Starters
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4'
+    implementation 'org.springframework.boot:spring-boot-starter-freemarker'
+    testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.4'
+    // MyBatis Plus
+    implementation 'com.baomidou:mybatis-plus-generator:3.5.11'
+    // 依赖管理
+    dependencyManagement {
+        imports {
+            mavenBom "com.baomidou:mybatis-plus-bom:3.5.11"
+        }
+    }
+    // spring boot3 引入可选模块
+    implementation("com.baomidou:mybatis-plus-spring-boot3-starter")
+    // jdk 11+ 引入可选模块
+    implementation("com.baomidou:mybatis-plus-jsqlparser")
+    // Database
+    implementation 'org.liquibase:liquibase-core'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+    // JWT
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
+    implementation 'io.jsonwebtoken:jjwt-impl:0.12.6'
+    implementation 'io.jsonwebtoken:jjwt-jackson:0.12.6'
+    // Utils
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
+    // Lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+    // Test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.4'
+    testImplementation 'org.springframework.amqp:spring-rabbit-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    // https://mvnrepository.com/artifact/org.testng/testng
+    testImplementation("org.testng:testng:7.11.0")
+}
+
+test {
+    useTestNG()
 }

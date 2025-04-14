@@ -1,0 +1,1 @@
+insert into action(name, code, type, description, createTime, createBy) values ("所有权限", "all:all", "API", "拥有所有的操作权限",now(), "System");

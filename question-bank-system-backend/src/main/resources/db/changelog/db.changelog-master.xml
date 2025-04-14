@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="1744114954396-1" author="SingDogYww">
+        <createTable tableName="user" remarks="用户表">
+            <column name="id" type="varchar(100)" remarks="用户ID，UUID">
+                <constraints primaryKey="true" primaryKeyName="PK_USER_ID"/>
+            </column>
+            <column name="username" type="varchar(100)" remarks="用户名，不能登录"/>
+            <column name="password" type="varchar(100)" remarks="密码"/>
+            <column name="email" type="varchar(50)" remarks="邮箱，可参与登录"/>
+            <column name="mobile_phone" type="varchar(20)" remarks="手机号，可参与登录"/>
+            <column name="status" type="tinyint" remarks="用户状态（禁用，激活，删除）"/>
+            <column name="create_time" type="datetime" remarks="创建时间"/>
+            <column name="create_by" type="varchar(100)" remarks="创建人"/>
+            <column name="update_time" type="datetime" remarks="最后一次修改时间"/>
+            <column name="update_by" type="varchar(100)" remarks="最后一次修改人"/>
+        </createTable>
+        <createTable tableName="role" remarks="角色表">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="PK_ROLE_ID"/>
+            </column>
+            <column name="name" type="varchar(100)" remarks="角色名称"/>
+            <column name="code" type="varchar(50)" remarks="角色编码"/>
+            <column name="deleted" type="tinyint" remarks="是否删除"/>
+            <column name="create_time" type="datetime" remarks="创建时间"/>
+            <column name="create_by" type="varchar(100)" remarks="创建人"/>
+            <column name="update_time" type="datetime" remarks="最后一次修改时间"/>
+            <column name="update_by" type="varchar(100)" remarks="最后一次修改人"/>
+        </createTable>
+        <createTable tableName="user_role_map" remarks="用户角色映射表">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="PK_USER_ROLE_MAP_ID"/>
+            </column>
+            <column name="user_id" type="varchar(100)"/>
+            <column name="role_id" type="int"/>
+            <column name="create_time" type="datetime" remarks="创建时间"/>
+            <column name="create_by" type="varchar(100)" remarks="创建人"/>
+        </createTable>
+        <createTable tableName="user_group" remarks="用户组表">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="PK_ROLE_ID"/>
+            </column>
+            <column name="name" type="varchar(100)" remarks="用户组名称"/>
+            <column name="type" type="varchar(20)" remarks="用户组类型"/>
+            <column name="description" type="varchar(500)" remarks="用户组描述"/>
+            <column name="create_time" type="datetime" remarks="创建时间"/>
+            <column name="create_by" type="varchar(100)" remarks="创建人"/>
+            <column name="update_time" type="datetime" remarks="最后一次修改时间"/>
+            <column name="update_by" type="varchar(100)" remarks="最后一次修改人"/>
+        </createTable>
+        <createTable tableName="user_group_member" remarks="用户组用户表">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="PK_USER_GROUP_MEMBER_ID"/>
+            </column>
+            <column name="user_id" type="varchar(100)"/>
+            <column name="user_group_id" type="int"/>
+            <column name="create_time" type="datetime" remarks="创建时间"/>
+            <column name="create_by" type="varchar(100)" remarks="创建人"/>
+        </createTable>
+        <createTable tableName="user_group_data_map" remarks="用户组数据映射表">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="PK_ROLE_ID"/>
+            </column>
+            <column name="user_group_id" type="int"/>
+            <column name="data_id" type="int" remarks="数据id"/>
+            <column name="namespace" type="tinyint" remarks="数据类型"/>
+            <column name="create_time" type="datetime" remarks="创建时间"/>
+            <column name="create_by" type="varchar(100)" remarks="创建人"/>
+        </createTable>
+        <createTable tableName="action" remarks="操作表">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="PK_ROLE_ID"/>
+            </column>
+            <column name="name" type="varchar(50)" remarks="操作名称"/>
+            <column name="code" type="varchar(50)" remarks="操作编码"/>
+            <column name="type" type="varchar(20)" remarks="操作类型(API、操作按钮)"/>
+            <column name="path" type="varchar(100)" remarks="API的时候的PATH"/>
+            <column name="method" type="varchar(20)" remarks="API的时候的PATH请求方法"/>
+            <column name="description" type="varchar(200)" remarks="描述"/>
+            <column name="create_time" type="datetime" remarks="创建时间"/>
+            <column name="create_by" type="varchar(100)" remarks="创建人"/>
+            <column name="update_time" type="datetime" remarks="最后一次修改时间"/>
+            <column name="update_by" type="varchar(100)" remarks="最后一次修改人"/>
+        </createTable>
+        <createTable tableName="role_action_map" remarks="角色操作映射表">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="PK_ROLE_ACTION_MAP_ID"/>
+            </column>
+            <column name="action_id" type="int"/>
+            <column name="role_id" type="int"/>
+            <column name="create_time" type="datetime" remarks="创建时间"/>
+            <column name="create_by" type="varchar(100)" remarks="创建人"/>
+        </createTable>
+        <createTable tableName="menu" remarks="菜单表">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="PK_ROLE_ID"/>
+            </column>
+            <column name="name" type="varchar(50)" remarks="菜单名称"/>
+            <column name="code" type="varchar(50)" remarks="菜单编码"/>
+            <column name="parent_code" type="varchar(50)" remarks="父级菜单编码"/>
+            <column name="icon" type="varchar(100)" remarks="图标"/>
+            <column name="route" type="varchar(100)" remarks="路由路径"/>
+            <column name="create_time" type="datetime" remarks="创建时间"/>
+            <column name="create_by" type="varchar(100)" remarks="创建人"/>
+            <column name="update_time" type="datetime" remarks="最后一次修改时间"/>
+            <column name="update_by" type="varchar(100)" remarks="最后一次修改人"/>
+        </createTable>
+        <createTable tableName="role_menu_map" remarks="角色菜单映射表">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="PK_ROLE_MENU_MAP_ID"/>
+            </column>
+            <column name="menu_id" type="varchar(100)"/>
+            <column name="role_id" type="int"/>
+            <column name="create_time" type="datetime" remarks="创建时间"/>
+            <column name="create_by" type="varchar(100)" remarks="创建人"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1744546837595-1" author="SingDogYww">
+        <sql dbms="mysql">
+            insert into action(name, code, type, description, create_time, create_by) values ("所有权限", "all:all", "API", "拥有所有的操作权限",now(), "System");
+        </sql>
+    </changeSet>
+
+</databaseChangeLog> 
