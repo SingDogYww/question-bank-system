@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive } from 'vue';
+import { ref, reactive, computed } from 'vue';
 import { UserOutlined, LockOutlined, MobileOutlined, MailOutlined } from '@ant-design/icons-vue';
 import { Form, Input, Button, Checkbox, Tabs, message } from 'ant-design-vue';
 import { useRouter } from 'vue-router';
@@ -33,6 +33,15 @@ const formState = reactive<LoginForm>({
   code: '',
   email: '',
   remember: false
+});
+
+// 添加手机号和邮箱验证的计算属性
+const isValidMobile = computed(() => {
+  return formState.mobile && /^1[3-9]\d{9}$/.test(formState.mobile);
+});
+
+const isValidEmail = computed(() => {
+  return formState.email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formState.email);
 });
 
 // 表单提交处理
@@ -133,7 +142,11 @@ checkRememberLogin();
                 size="large"
                 :disabled="loading"
                 autocomplete="username"
-              />
+              >
+                <template #prefix>
+                  <UserOutlined style="color: rgba(0, 0, 0, 0.25)" />
+                </template>
+              </Input>
             </Form.Item>
 
             <Form.Item
@@ -146,7 +159,11 @@ checkRememberLogin();
                 size="large"
                 :disabled="loading"
                 autocomplete="current-password"
-              />
+              >
+                <template #prefix>
+                  <LockOutlined style="color: rgba(0, 0, 0, 0.25)" />
+                </template>
+              </Input.Password>
             </Form.Item>
           </Tabs.TabPane>
 
@@ -165,7 +182,11 @@ checkRememberLogin();
                 size="large"
                 :disabled="loading"
                 autocomplete="tel"
-              />
+              >
+                <template #prefix>
+                  <MobileOutlined style="color: rgba(0, 0, 0, 0.25)" />
+                </template>
+              </Input>
             </Form.Item>
 
             <Form.Item
@@ -182,8 +203,8 @@ checkRememberLogin();
                   <Button
                     type="link"
                     @click="startCountdown"
-                    :disabled="countdown > 0 || loading"
-                    :style="{ color: countdown || loading ? '#666' : themeColors.primary }"
+                    :disabled="countdown > 0 || loading || !isValidMobile"
+                    :style="{ color: countdown > 0 || loading || !isValidMobile ? '#666' : themeColors.primary }"
                   >
                     {{ countdown ? `${countdown}s后重发` : '获取验证码' }}
                   </Button>
@@ -207,7 +228,11 @@ checkRememberLogin();
                 size="large"
                 :disabled="loading"
                 autocomplete="email"
-              />
+              >
+                <template #prefix>
+                  <MailOutlined style="color: rgba(0, 0, 0, 0.25)" />
+                </template>
+              </Input>
             </Form.Item>
 
             <Form.Item
@@ -220,7 +245,11 @@ checkRememberLogin();
                 size="large"
                 :disabled="loading"
                 autocomplete="current-password"
-              />
+              >
+                <template #prefix>
+                  <LockOutlined style="color: rgba(0, 0, 0, 0.25)" />
+                </template>
+              </Input.Password>
             </Form.Item>
           </Tabs.TabPane>
         </Tabs>
